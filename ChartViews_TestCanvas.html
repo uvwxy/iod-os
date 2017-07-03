@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+  <canvas id="canvas1" width="128" height="64" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+
+  <canvas id="canvas2" width="128" height="64" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+
+  <canvas id="canvas3" width="128" height="64" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+
+  <canvas id="canvas4" width="128" height="64" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+
+  <canvas id="canvas5" width="128" height="64" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+
+
+  <script>
+    var draw = function(ctx, arr) {
+      console.log("Arr", arr);
+      var _x = 0;
+      var _y = 16; // offsets
+      var _width = 128;
+      var _height = 48
+
+      var minRange = 4;
+
+      // get first index and follower
+      var firstIndex = 0;
+      var nextIndex = 1;
+
+      var __min = Math.min.apply(Math, arr);
+      var __max = Math.max.apply(Math, arr);
+
+      var shift = -__min;
+      var range = (__max + shift);
+      // the 0.00000001 is to trick hlines into the middle
+      range = range == 0 ? 0.1 : range;
+      var drawRange = range < minRange ? minRange : range;
+
+      for (var i = 1; i < arr.length; i++) {
+        var rm = (range / drawRange);
+        var ro = _height * (1.0 - (range / drawRange)) / 2.0;
+
+        var x1 = (i - 1) / (arr.length - 1) * _width;
+        var y1 = _height - _height * ((arr[firstIndex] + shift) / range) * rm - ro;
+        var x2 = (i) / (arr.length - 1) * _width;
+        var y2 = _height - _height * ((arr[nextIndex] + shift) / range) * rm - ro;
+        // draw pair
+        drawLine(ctx, _x + x1, _y + y1, _x + x2, _y + y2);
+
+        // get next pair
+        firstIndex = nextIndex;
+        nextIndex = (firstIndex + 1) % arr.length;
+      }
+
+      drawFrame(ctx, _x, _y, _width, _height);
+
+    }
+
+
+
+    var data1 = [0.0, -0.1, 0.2, -0.3, 0.4, -0.5, 0.6, -0.7, //
+      0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, //
+      -0.0, -0.1, -0.2, -0.3, -0.4, -0.5, -0.6, -0.7, //
+      0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7
+    ]
+    var temp = [28.09, 28.08, 28.08, 28.10, 28.11, 28.14, 28.14, 28.15];
+
+    var data2 = [0, 0, 0, 26, 26, 25.5, 25.5];
+    var data3 = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
+
+    var data4 = [-25, -26, -25, -26, -26, -25.5, -25.5];
+    var data5 = [1.0, 1.0, 1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0];
+
+    var drawLine = function(ctx, x1, y1, x2, y2) {
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+    };
+
+    var drawFrame = function(ctx, x1, y1, width, height) {
+      drawLine(ctx, x1, y1, x1, y1 + height);
+      drawLine(ctx, x1, y1, x1 + width, y1);
+      drawLine(ctx, x1 + width, y1 + height, x1, y1 + height);
+      drawLine(ctx, x1 + width, y1 + height, x1 + width, y1);
+    }
+
+    draw(document.getElementById("canvas1").getContext("2d"), temp);
+    draw(document.getElementById("canvas2").getContext("2d"), data2);
+    draw(document.getElementById("canvas3").getContext("2d"), data3);
+    draw(document.getElementById("canvas4").getContext("2d"), data4);
+    draw(document.getElementById("canvas5").getContext("2d"), data5);
+  </script>
+
+</body>
+
+</html>
