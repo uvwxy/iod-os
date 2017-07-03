@@ -1,5 +1,5 @@
 {
-  "name": IoD OS",
+  "name": "IoD OS",
   "keywords": "internet of things, time, timers, tick, charts, sensors, timers, view, ui, buttons",
   "description": "A collection of components to create tiny IoT operating systems for the Arduino platform.",
   "repository":
