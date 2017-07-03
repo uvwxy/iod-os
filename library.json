@@ -5,7 +5,8 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/uvwxy/iod-os.git"
+    "url": "https://github.com/uvwxy/iod-os.git",
+    "branch": "master"
   },
   "frameworks": "arduino",
   "platforms": "*",
