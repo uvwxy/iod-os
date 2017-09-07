@@ -15,13 +15,15 @@
 #define D9 3  // RX0 (Serial console)
 #define D10 1 // TX0 (Serial console)
 
-#define MAX_BUTTON_CALLBACKS 16
-#define MAX_BUTTONS 2
+#define MAX_BUTTON_CALLBACKS 8
+#define MAX_BUTTONS 8
 
 class OSButtons {
 public:
 
   void setup(int clickTimeout);
+  void registerButton(int pin,
+                      int activeState);
   int  registerButtonClick(int    pin,
                            bool (*callback)(int));
   void handleButtonClicks();
@@ -35,8 +37,9 @@ private:
 
   int _buttonMap[MAX_BUTTONS];
   int _buttonLastState[MAX_BUTTONS];
+  int _buttonActiveState[MAX_BUTTONS];
   int _clickTimeout = 3; // ticks
-  bool(*_buttonCallbacks[MAX_BUTTONS][MAX_BUTTON_CALLBACKS])(int) = {};
+  bool (*_buttonCallbacks[MAX_BUTTONS][MAX_BUTTON_CALLBACKS])(int) = {};
 };
 
 #endif // ifndef Buttons_h
